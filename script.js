@@ -4,8 +4,8 @@ let SplitAnimation = {
     const slantSplitcontainer = document.getElementById('slant-split-container');
     const learnMoreLeft       = slantSplitcontainer.querySelector('.left-section .learn-more');
     const learnMoreRight      = slantSplitcontainer.querySelector('.right-section .learn-more');
-    const leftArrow          = slantSplitcontainer.querySelector('.left-section .left-arrow');
-    const rightArrow           = slantSplitcontainer.querySelector('.right-section .right-arrow');
+    const leftArrow           = slantSplitcontainer.querySelector('.left-section .left-arrow');
+    const rightArrow          = slantSplitcontainer.querySelector('.right-section .right-arrow');
 
 
     function handleLearnMoreLeftClick(){
@@ -49,12 +49,14 @@ let SplitAnimation = {
       rightArrow.removeEventListener('click',     handleRightArrowClick);
       SplitAnimation = null;
       console.log("Removed SplitAnimation related event listeners, and set the SplitAnimation object to: ", SplitAnimation);
+      return this;
     };
 
 
     delete this.init;
     console.log("SplitAnimation.init() deleted.");
     Object.freeze(this);
+    return this;
   } // End of init.
 }.init();
 
@@ -65,20 +67,10 @@ let SplitAnimation = {
 
 
 function initialize(){
-  setTimeout(function(){
-    console.log("CSS class '.preload' removed from body element.");
-    document.body.classList.remove('preload');
-  }, 500);
+  setTimeout(function(){ document.body.classList.remove('preload'); }, 500);
 }
 
 initialize();
 
 
-// Optional:
-// window.onpageshow = (e) => {
-//   if (e.persisted){
-//     console.log("The page was cached, but recalling initialize() now.");
-//     location.reload();
-//     initialize();
-//   }
-// };
+// window.onpageshow = (e) => {if (e.persisted){ location.reload(); }}; // Optional

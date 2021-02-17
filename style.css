@@ -80,7 +80,7 @@ pre {
 
 
 /* =============================================================================
-
+                             #slant-split-container
 ============================================================================= */
 
 
@@ -94,6 +94,7 @@ pre {
   left: -50%;
   width: 200%;
   height: 100vh;
+  min-height: 100vh;
   transform: var(--negative-skew);
   transition: transform var(--duration) linear;
   overflow: hidden;
@@ -101,7 +102,7 @@ pre {
 
 
 /* =========================
-       .*-section
+
 ========================= */
 
 
@@ -110,6 +111,7 @@ pre {
   --stroke-color: var(--color-2);
   width: 50%;
   height: 100%;
+  min-height: 100vh;
   color: var(--color-2);
   background-color: var(--color-1);
   transition: transform var(--duration) linear;
@@ -121,6 +123,7 @@ pre {
   --stroke-color: var(--color-1);
   width: 50%;
   height: 100%;
+  min-height: 100vh;
   color: var(--color-1);
   background-color: var(--color-2);
   transition: transform var(--duration) linear;
@@ -129,7 +132,33 @@ pre {
 
 
 /* =========================
-       .content
+
+========================= */
+
+
+.left-section .left-arrow {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  cursor:pointer;
+  fill: var(--color-2);
+  visibility: hidden;
+  opacity: 0;
+}
+
+.right-section .right-arrow {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor:pointer;
+  fill: var(--color-1);
+  visibility: hidden;
+  opacity: 0;
+}
+
+
+/* =========================
+
 ========================= */
 
 
@@ -137,8 +166,12 @@ pre {
   display: flex;
   flex-direction: column;
   position: relative;
-  height: 90%;
-  margin-top: 5vh;
+  height: 80vh;
+  /* The margin-top value is (100 - height) / 2.
+  You may want to change th height value depending on the on amount of content and/or degree of skew.
+  This means changing the margin-top value here as well as both properties in the following @keyframes :
+  content-open-left, content-close-left, content-open-right, content-close-right. */
+  margin-top: 10vh;
   transform: var(--positive-skew);
   transition: transform var(--duration) linear;
 }
@@ -153,35 +186,21 @@ pre {
   margin-right: 55%;
 }
 
-
-/* =========================
-   .content first child.
-========================= */
-
-
-.left-section .left-arrow {
-  position: absolute;
-  top: -10px;
-  left: 2.5%;
-  cursor:pointer;
-  fill: var(--color-2);
-  visibility: hidden;
-  opacity: 0;
+/* Note: There are other width x height combinations in which the slant
+should be removed. This is just a start. */
+@media (orientation: portrait) {
+  #slant-split-container { transform: skew(0); }
+  .content { transform: skew(0); }
 }
 
-.right-section .right-arrow {
-  position: absolute;
-  top: -10px;
-  right: 2.5%;
-  cursor:pointer;
-  fill: var(--color-1);
-  visibility: hidden;
-  opacity: 0;
+@media (max-width: 575px) {
+  #slant-split-container { transform: skew(0); }
+  .content { transform: skew(0); }
 }
 
 
 /* =========================
- .content second child.
+  .content first child.
 ========================= */
 
 
@@ -200,7 +219,7 @@ pre {
 
 
 /* =========================
-   .content third child.
+   .content second child.
 ========================= */
 
 
@@ -218,7 +237,7 @@ pre {
 
 
 /* =========================
-  .content fourth child
+  .content third child
 ========================= */
 
 
@@ -236,14 +255,15 @@ pre {
 
 
 #slant-split-container.open-left {
-  min-height: 100vh;
   transform: skew(0) translateX(25%);
+  /* Initially I tried making height part of the transitions, but it didn't work.
+  Consequently to go from height:100vh to height:auto at the END of the transition
+  the animation property is used. */
   animation: height-auto 0s linear var(--duration);
   animation-fill-mode: forwards;
 }
 
 #slant-split-container.open-right {
-  min-height: 100vh;
   transform: skew(0) translateX(-25%);
   animation: height-auto 0s linear var(--duration);
   animation-fill-mode: forwards;
@@ -265,6 +285,17 @@ pre {
 ========================= */
 
 
+#slant-split-container.open-left  .left-section
+#slant-split-container.open-right .right-section {
+  height: 100vh;
+  min-height: 100vh;
+}
+
+/* =========================
+
+========================= */
+
+
 #slant-split-container.open-left .left-section .content {
   animation: content-open-left var(--duration) linear;
   animation-fill-mode: forwards;
@@ -279,8 +310,8 @@ pre {
   0% {}
   100% {
     height: auto;
-    min-height: 90%;
-    margin: 5vh 0 0 0;
+    min-height: 80%;
+    margin: 10vh 0 0 0;
     padding: 0 5%;
   }
 }
@@ -288,15 +319,15 @@ pre {
 @keyframes content-close-left {
   0% {
     height: auto;
-    min-height: 90%;
-    margin: 5vh 0 0 0;
+    min-height: 80%;
+    margin: 10vh 0 0 0;
     padding: 0 5%;
   }
 
   75% { padding: 0 5%; }
 
   100% {
-    height: 90%;
+    height: 80%;
     min-height: 0;
     margin-left: 55%;
     margin-right: 10%;
@@ -306,7 +337,7 @@ pre {
 
 /* Uncomment this if you prefer text that doesn't unwrap as it opens. */
 /* #slant-split-container.open-left .left-section .content {
-  margin: 5vh 0 0 0;
+  margin: 10vh 0 0 0;
   padding: 0 5%;
 } */
 
@@ -330,8 +361,8 @@ pre {
   0% {}
   100% {
     height: auto;
-    min-height: 90%;
-    margin: 5vh 0 0 0;
+    min-height: 80%;
+    margin: 10vh 0 0 0;
     padding: 0 5%;
   }
 }
@@ -339,15 +370,15 @@ pre {
 @keyframes content-close-right {
   0% {
     height: auto;
-    min-height: 90%;
-    margin: 5vh 0 0 0;
+    min-height: 80%;
+    margin: 10vh 0 0 0;
     padding: 0 5%;
   }
 
   75% { padding: 0 5%; }
 
   100% {
-    height: 90%;
+    height: 80%;
     min-height: 0;
     margin-left: 10%;
     margin-right: 55%;
@@ -357,7 +388,7 @@ pre {
 
 /* Uncomment this if you prefer text that doesn't unwrap as it opens. */
 /* #slant-split-container.open-right .right-section .content {
-  margin: 5vh 0 0 0;
+  margin: 10vh 0 0 0;
   padding: 0 5%;
 } */
 
